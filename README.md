@@ -1,7 +1,5 @@
 # kubeci
-Kubernetes command line tool for use during the continuous integration process.  
-
-Runs Kubernetes operations that are common during continuous integration via a convenient command line interface.
+Command line tool which performs Kubernetes operations commonly required during continuous integration.
 
 # Usage
 Kubeci is a binary which provides a command line interface. Subcommands are describe in the following section.

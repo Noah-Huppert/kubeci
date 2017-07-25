@@ -10,6 +10,9 @@ import (
 
 func main() {
 	app := cli.NewApp()
+	app.Version = "0.1.0"
+	app.Description = "Command line tool which performs Kubernetes operations commonly required during continuous integration"
+	app.Usage = "Kubernetes continuous integration command line interface"
 
 	err, commands := cmds.LoadCommands(cmds.CommandDefs(ops.CommandDefs))
 	if err != nil {

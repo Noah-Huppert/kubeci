@@ -10,7 +10,7 @@ type ListCommand struct{
 }
 
 func (l ListCommand) Name() []string {
-	return []string{"list"}
+	return []string{"list", "l"}
 }
 
 func (l ListCommand) Usage() string {
@@ -22,7 +22,16 @@ func (l ListCommand) Flags() []cli.Flag {
 }
 
 func (l ListCommand) Args() []Argument {
-	return []Argument{}
+	return []Argument{
+		{
+			Name: "ban",
+			Usage: "Just do it",
+		},
+		{
+			Name: "another",
+			Usage: "One",
+		},
+	}
 }
 
 func (l ListCommand) Subcommands() []Command {
@@ -44,8 +53,10 @@ func (l ListCommand) Action(c *cli.Context) error {
 			return err
 		}
 
-		fmt.Printf("   - %s - %s\n", name, op.Usage())
+		fmt.Printf("    %s - %s\n", name, op.Usage())
 	}
+
+	fmt.Println("")
 
 	return nil
 }

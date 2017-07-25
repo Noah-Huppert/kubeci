@@ -174,12 +174,20 @@ func AssembleCommand(c Command) (error, *cli.Command) {
 		Before: func(c *cli.Context) error {
 			// Check correct number of arguments
 			if (c.NArg() < len(args)) {
-				errMsg := "All positional arguments must be provided, %d required, %d provided, missing:"
+				errMsg := fmt.Sprintf("All positional arguments must be provided, %d required, %d provided, missing:\n", len(args), c.NArg())
 
-				for _, arg := range args[c.NArg()-1:] {
-					errMsg += fmt.Sprintf("\n    - [%s] - %s", arg.Name, arg.Usage)
+				fromI := 0
+
+				if c.NArg() > 0 {
+					fromI = c.NArg()
 				}
 
+				for _, arg := range args[fromI:] {
+					errMsg += fmt.Sprintf("\n   [%s] - %s", arg.Name, arg.Usage)
+				}
+
+				errMsg += "\n\n"
+				fmt.Print(errMsg)
 				return errors.New(errMsg)
 			}
 
