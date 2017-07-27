@@ -17,7 +17,7 @@ Command line tool which performs Kubernetes operations commonly required during 
     - [Uploading](#uploading)
 
 # Usage
-Kubeci is a binary which provides a command line interface. Subcommands are describe in the following section.
+Kubeci is a binary which provides a command line interface. Subcommands are described in the following section.
 
 ## Run
 Kubeci provides numerous operations. These operations run common Kubernetes actions.  
@@ -149,4 +149,4 @@ To upload a release navigate to the [GitHub Release Creation Page](https://githu
 Next select your newly created tag. Enter a release title and write a release description. Attatch the contents of the 
 `dist` directory to the release with the upload feature.
 
-Click the "Publish release" button finalize the release.
+Click the "Publish release" button to finalize the release.
