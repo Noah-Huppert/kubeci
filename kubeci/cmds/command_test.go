@@ -42,8 +42,8 @@ func (m MockCommand) Action(c *cli.Context) error {
 
 // defaultMockSubcommands holds 2 empty mock Commands for use when one does not wish to provide some mock subcommands
 var defaultMockSubcommands []Command = []Command{
-	NewEmptyMockCommand(),
-	NewEmptyMockCommand(),
+	NewFullMockCommand([]Command{}, defaultMockAction),
+    NewFullMockCommand([]Command{}, defaultMockAction),
 }
 
 // defaultMockAction is a default action method for a Command interface
@@ -98,6 +98,7 @@ func NewDefaultFullMockCommand() MockCommand {
     return NewFullMockCommand(defaultMockSubcommands, defaultMockAction)
 }
 
+// CheckCommand
 func Test_CheckCommand_NameFull_Ok(t *testing.T) {
 	cmd := NewFullMockCommand(defaultMockSubcommands, defaultMockAction)
 
@@ -166,6 +167,7 @@ func Test_CheckCommand_ArgsEmptyContentsUsage_NotOk(t *testing.T) {
     assert.NotNil(t, err)
 }
 
+// AssembleCommandName
 func Test_AssembleCommandName_EmptyCommand_NotOk(t *testing.T) {
     cmd := NewEmptyMockCommand()
 
@@ -189,4 +191,52 @@ func Test_AssembleCommandName_MultipleNames(t *testing.T) {
     err, name := AssembleCommandName(cmd)
     assert.Nil(t, err)
     assert.Equal(t, name, "{Name,n1,n2}")
+}
+
+// AssembleCommand
+func Test_AssembleCommand_EmptyCommand_NotOk(t *testing.T) {
+    cmd := NewEmptyMockCommand()
+
+    err, out := AssembleCommand(cmd)
+    assert.NotNil(t, err)
+    assert.Nil(t, out)
+}
+
+func Test_AssembleCommand_Ok(t *testing.T) {
+    cmd := NewEmptyMockCommand()
+    cmd.MockName = []string{"name", "n1", "n2"}
+    cmd.MockUsage = "How to use name"
+    cmd.MockArgs = []Argument{
+        {
+            Name: "Arg1",
+            Usage: "How to use Arg1",
+        },
+        {
+            Name: "Arg2",
+            Usage: "How to use Arg2",
+        },
+    }
+    cmd.MockFlags = []cli.Flag{
+        cli.StringFlag{
+            Name: "Flag1",
+            Usage: "How to use Flag1",
+        },
+        cli.StringFlag{
+            Name: "Flag2",
+            Usage: "How to use Flag2",
+        },
+    }
+    cmd.MockSubcommands = defaultMockSubcommands
+
+    err, out := AssembleCommand(cmd)
+    assert.Nil(t, err)
+    assert.Equal(t, out.Name, "name")
+    assert.Equal(t, out.Aliases, []string{"n1", "n2"})
+    assert.Equal(t, out.Usage, "How to use name")
+    assert.Equal(t, out.UsageText, "kubeci {name,n1,n2} --Flag1 Flag1 --Flag2 Flag2 [Arg1] [Arg2]\n\nPOSITIONAL OPTIONS:\n   [Arg1] - How to use Arg1\n   [Arg2] - How to use Arg2")
+    assert.Equal(t, out.ArgsUsage, "[Arg1] [Arg2]")
+    assert.Equal(t, out.Flags, cmd.MockFlags)
+    assert.NotNil(t, out.Subcommands)
+    assert.NotNil(t, out.Before)
+    assert.NotNil(t, out.Action)
 }
