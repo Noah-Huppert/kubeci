@@ -17,3 +17,6 @@ dist
 # Jetbrains
 .idea
 *.iml
+
+# Go
+vendor
