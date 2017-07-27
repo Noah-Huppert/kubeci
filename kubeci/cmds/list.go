@@ -22,16 +22,7 @@ func (l ListCommand) Flags() []cli.Flag {
 }
 
 func (l ListCommand) Args() []Argument {
-	return []Argument{
-		{
-			Name: "ban",
-			Usage: "Just do it",
-		},
-		{
-			Name: "another",
-			Usage: "One",
-		},
-	}
+	return []Argument{}
 }
 
 func (l ListCommand) Subcommands() []Command {

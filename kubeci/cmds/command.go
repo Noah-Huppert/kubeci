@@ -84,6 +84,8 @@ func CheckCommand(c Command) error {
 	return nil
 }
 
+// AssembleCommandName creates a string with all a Command's names in it. Formatted with curly braces around the names,
+// separated by commas. Like so: {name1,shortn1,shortn2}
 func AssembleCommandName(c Command) (error, string) {
 	// Check
 	err := CheckCommand(c)
