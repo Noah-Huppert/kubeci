@@ -12,6 +12,9 @@ Command line tool which performs Kubernetes operations commonly required during 
     - [Development Build](#development-build)
     - [Test](#test)
 - [Release](#release)
+    - [Pre Release Checklist](#pre-release-checklist)
+    - [Release Build](#release-build)
+    - [Uploading](#uploading)
 
 # Usage
 Kubeci is a binary which provides a command line interface. Subcommands are describe in the following section.
@@ -103,7 +106,7 @@ Before a release can be built the following steps must occur:
 2. Tag Git commit with incremented version number
     - Run `$ VERSION=x.y.z make tag`
 
-## Build
+## Release Build
 Kubeci is built for:
 
 - Linux
