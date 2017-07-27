@@ -93,8 +93,100 @@ func NewFullMockCommand(subcommands []Command, mockAction func(c *cli.Context) e
 	}
 }
 
+// NewDefaultFullMockCommand constructs a new full MockCommand with default mock values
+func NewDefaultFullMockCommand() MockCommand {
+    return NewFullMockCommand(defaultMockSubcommands, defaultMockAction)
+}
+
 func Test_CheckCommand_NameFull_Ok(t *testing.T) {
 	cmd := NewFullMockCommand(defaultMockSubcommands, defaultMockAction)
 
+    err := CheckCommand(cmd)
+    assert.Nil(t, err)
+}
 
+func Test_CheckCommand_NameEmpty_NotOk(t *testing.T) {
+    cmd := NewEmptyMockCommand()
+
+    err := CheckCommand(cmd)
+    assert.NotNil(t, err)
+}
+
+func Test_CheckCommand_NameElementEmpty_NotOk(t *testing.T) {
+    cmd := NewFullMockCommand(defaultMockSubcommands, defaultMockAction)
+    cmd.MockName = []string{"Name",""}
+
+    err := CheckCommand(cmd)
+    assert.NotNil(t, err)
+}
+
+func Test_CheckCommand_UsageFull_Ok(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+
+    err := CheckCommand(cmd)
+    assert.Nil(t, err)
+}
+
+func Test_CheckCommand_UsageEmpty_NotOk(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+    cmd.MockUsage = ""
+
+    err := CheckCommand(cmd)
+    assert.NotNil(t, err)
+}
+
+func Test_CheckCommand_ArgsFull_Ok(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+
+    err := CheckCommand(cmd)
+    assert.Nil(t, err)
+}
+
+func Test_CheckCommand_ArgsEmpty_Ok(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+    cmd.MockArgs = []Argument{}
+
+    err := CheckCommand(cmd)
+    assert.Nil(t, err)
+}
+
+func Test_CheckCommand_ArgsEmptyContentsName_NotOk(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+    cmd.MockArgs[0].Name = ""
+
+    err := CheckCommand(cmd)
+    assert.NotNil(t, err)
+}
+
+func Test_CheckCommand_ArgsEmptyContentsUsage_NotOk(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+    cmd.MockArgs[0].Usage = ""
+
+    err := CheckCommand(cmd)
+    assert.NotNil(t, err)
+}
+
+func Test_AssembleCommandName_EmptyCommand_NotOk(t *testing.T) {
+    cmd := NewEmptyMockCommand()
+
+    err, _ := AssembleCommandName(cmd)
+    assert.NotNil(t, err)
+}
+
+func Test_AssembleCommandName_OneName(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+    cmd.MockName = []string{"Name"}
+
+    err, name := AssembleCommandName(cmd)
+    assert.Nil(t, err)
+    assert.Equal(t, name, "Name")
+}
+
+func Test_AssembleCommandName_MultipleNames(t *testing.T) {
+    cmd := NewDefaultFullMockCommand()
+    cmd.MockName = []string{"Name", "n1", "n2"}
+
+    err, name := AssembleCommandName(cmd)
+    assert.Nil(t, err)
+    assert.Equal(t, name, "{Name,n1,n2}")
 }
