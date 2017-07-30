@@ -20,3 +20,4 @@ dist
 
 # Go
 vendor
+*.out

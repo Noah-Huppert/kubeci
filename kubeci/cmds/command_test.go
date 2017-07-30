@@ -240,3 +240,22 @@ func Test_AssembleCommand_Ok(t *testing.T) {
     assert.NotNil(t, out.Before)
     assert.NotNil(t, out.Action)
 }
+
+// LoadCommands
+func Test_LoadCommands_FullCommands_Ok(t *testing.T) {
+    err, cmds := LoadCommands(defaultMockSubcommands)
+
+    assert.Nil(t, err)
+    assert.NotNil(t, cmds)
+    assert.Equal(t, len(cmds), 2)
+}
+
+func Test_LoadCommands_BadCommands_NotOk(t *testing.T) {
+    err, cmds := LoadCommands([]Command{
+        NewEmptyMockCommand(),
+        NewEmptyMockCommand(),
+    })
+
+    assert.NotNil(t, err)
+    assert.Equal(t, len(cmds), 0)
+}

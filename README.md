@@ -88,7 +88,7 @@ $ go run kubeci/kubeci.go
 To test kubeci run:
 
 ```bash
-$ go test ./kubeci/...
+$ go test -cover ./kubeci/...
 ```
 
 # Release

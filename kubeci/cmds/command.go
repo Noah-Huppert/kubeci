@@ -201,7 +201,8 @@ func AssembleCommand(c Command) (error, *cli.Command) {
 	return nil, &outCmd
 }
 
-// LoadCommands will assemble all commands in the provided array.
+// LoadCommands will assemble all commands in the provided array. Returns error if issue occurs while converting a
+// Command definition interface into a cli.Command
 func LoadCommands(cmdDefs []Command) (error, []cli.Command) {
 	commands := cli.Commands{}
 
