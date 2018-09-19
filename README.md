@@ -1,3 +1,7 @@
+Project status: Stale | Not completed | Kept for archival purposes  
+
+I created a tool which solves some of the problems this project was planning to solve named [k8s-deploy](http://github.com/Noah-Huppert/k8s-deploy).
+
 # kubeci
 Command line tool which performs Kubernetes operations commonly required during continuous integration.
 
